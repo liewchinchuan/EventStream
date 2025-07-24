@@ -6,7 +6,7 @@ import {
   type Participant, type InsertParticipant
 } from "@shared/schema";
 import { db } from "./db";
-import { eq, desc, and, sql } from "drizzle-orm";
+import { eq, desc, and, sql, ne } from "drizzle-orm";
 
 export interface IStorage {
   // Users
@@ -112,6 +112,11 @@ export class DatabaseStorage implements IStorage {
   }
 
   async updateQuestion(id: number, updates: Partial<Question>): Promise<Question | undefined> {
+    if (updates.isDisplayedInPresenter === true) {
+      await db.update(questions)
+        .set({ isDisplayedInPresenter: false })
+        .where(and(eq(questions.eventId, (await this.getQuestion(id))!.eventId), ne(questions.id, id)));
+    }
     const [question] = await db.update(questions).set(updates).where(eq(questions.id, id)).returning();
     return question || undefined;
   }
@@ -180,7 +185,7 @@ export class DatabaseStorage implements IStorage {
   async getPollResults(pollId: number): Promise<any> {
     const responses = await db.select().from(pollResponses).where(eq(pollResponses.pollId, pollId));
     const poll = await this.getPoll(pollId);
-    
+
     if (!poll) return null;
 
     const totalResponses = responses.length;
