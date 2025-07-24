@@ -87,9 +87,18 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.get('/api/events/:slug', async (req, res) => {
+  app.get('/api/events/:identifier', async (req, res) => {
     try {
-      const event = await storage.getEventBySlug(req.params.slug);
+      const identifier = req.params.identifier;
+      let event;
+      
+      // Check if identifier is numeric (ID) or string (slug)
+      if (/^\d+$/.test(identifier)) {
+        event = await storage.getEvent(parseInt(identifier));
+      } else {
+        event = await storage.getEventBySlug(identifier);
+      }
+      
       if (!event) {
         return res.status(404).json({ message: 'Event not found' });
       }
