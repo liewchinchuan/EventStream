@@ -1,5 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { ChevronUp, ChevronDown, Pin, Check, EyeOff, Share2, Copy, Download, Trash2 } from 'lucide-react';
+import { ChevronUp, ChevronDown, Pin, Check, EyeOff, Share2, Copy, Download, Trash2, Monitor } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -99,6 +99,14 @@ export default function LiveQAPanel({ eventId }: LiveQAPanelProps) {
             >
               {event.isActive ? 'Live' : 'Inactive'}
             </Badge>
+            <Button 
+              variant="ghost" 
+              size="sm" 
+              onClick={() => window.open(`/${event.slug}/presenter`, '_blank')}
+              title="Open presenter view"
+            >
+              <Monitor className="w-4 h-4" />
+            </Button>
             <Button variant="ghost" size="sm" onClick={copyEventUrl}>
               <Share2 className="w-4 h-4" />
             </Button>
@@ -233,6 +241,12 @@ export default function LiveQAPanel({ eventId }: LiveQAPanelProps) {
                             Answered
                           </Badge>
                         )}
+                        {question.isDisplayedInPresenter && (
+                          <Badge variant="default" className="text-xs bg-blue-600">
+                            <Monitor className="w-3 h-3 mr-1" />
+                            On Screen
+                          </Badge>
+                        )}
                       </div>
                     </div>
                     <div className="flex items-center space-x-2 ml-4">
@@ -241,9 +255,22 @@ export default function LiveQAPanel({ eventId }: LiveQAPanelProps) {
                         size="sm"
                         onClick={() => updateQuestionMutation.mutate({
                           id: question.id,
+                          updates: { isDisplayedInPresenter: !question.isDisplayedInPresenter }
+                        })}
+                        className={`p-1.5 ${question.isDisplayedInPresenter ? 'text-blue-600 bg-blue-50' : 'text-neutral-400 hover:text-blue-600'}`}
+                        title="Toggle display in presenter mode"
+                      >
+                        <Monitor className="w-4 h-4" />
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => updateQuestionMutation.mutate({
+                          id: question.id,
                           updates: { isPinned: !question.isPinned }
                         })}
-                        className="p-1.5 text-neutral-400 hover:text-primary"
+                        className={`p-1.5 ${question.isPinned ? 'text-primary bg-primary/10' : 'text-neutral-400 hover:text-primary'}`}
+                        title="Pin question"
                       >
                         <Pin className="w-4 h-4" />
                       </Button>
@@ -254,7 +281,8 @@ export default function LiveQAPanel({ eventId }: LiveQAPanelProps) {
                           id: question.id,
                           updates: { isAnswered: !question.isAnswered }
                         })}
-                        className="p-1.5 text-neutral-400 hover:text-success"
+                        className={`p-1.5 ${question.isAnswered ? 'text-success bg-success/10' : 'text-neutral-400 hover:text-success'}`}
+                        title="Mark as answered"
                       >
                         <Check className="w-4 h-4" />
                       </Button>
@@ -266,6 +294,7 @@ export default function LiveQAPanel({ eventId }: LiveQAPanelProps) {
                           updates: { isHidden: true }
                         })}
                         className="p-1.5 text-neutral-400 hover:text-error"
+                        title="Hide question"
                       >
                         <EyeOff className="w-4 h-4" />
                       </Button>

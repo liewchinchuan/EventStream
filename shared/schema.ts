@@ -37,6 +37,7 @@ export const questions = pgTable("questions", {
   isAnswered: boolean("is_answered").default(false).notNull(),
   isPinned: boolean("is_pinned").default(false).notNull(),
   isHidden: boolean("is_hidden").default(false).notNull(),
+  isDisplayedInPresenter: boolean("is_displayed_in_presenter").default(false).notNull(),
   upvotes: integer("upvotes").default(0).notNull(),
   downvotes: integer("downvotes").default(0).notNull(),
   createdAt: timestamp("created_at").defaultNow().notNull(),
