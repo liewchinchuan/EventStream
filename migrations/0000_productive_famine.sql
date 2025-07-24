@@ -64,6 +64,7 @@ CREATE TABLE "questions" (
 	"is_answered" boolean DEFAULT false NOT NULL,
 	"is_pinned" boolean DEFAULT false NOT NULL,
 	"is_hidden" boolean DEFAULT false NOT NULL,
+	"is_displayed_in_presenter" boolean DEFAULT false NOT NULL,
 	"upvotes" integer DEFAULT 0 NOT NULL,
 	"downvotes" integer DEFAULT 0 NOT NULL,
 	"created_at" timestamp DEFAULT now() NOT NULL
