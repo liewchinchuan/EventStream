@@ -9,6 +9,8 @@ CREATE TABLE "events" (
 	"allow_anonymous" boolean DEFAULT true NOT NULL,
 	"auto_approve" boolean DEFAULT true NOT NULL,
 	"show_voting" boolean DEFAULT true NOT NULL,
+	"start_time" timestamp,
+	"end_time" timestamp,
 	"branding" jsonb,
 	"created_at" timestamp DEFAULT now() NOT NULL,
 	CONSTRAINT "events_slug_unique" UNIQUE("slug")

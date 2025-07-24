@@ -17,11 +17,21 @@ const createEventSchema = z.object({
   name: z.string().min(1, 'Event name is required'),
   description: z.string().optional(),
   slug: z.string().min(1, 'URL slug is required').regex(/^[a-z0-9-]+$/, 'Only lowercase letters, numbers, and hyphens allowed'),
+  startTime: z.string().optional(),
+  endTime: z.string().optional(),
   allowQuestions: z.boolean().default(true),
   allowAnonymous: z.boolean().default(true),
   autoApprove: z.boolean().default(true),
   showVoting: z.boolean().default(true),
   isActive: z.boolean().default(false),
+}).refine((data) => {
+  if (data.startTime && data.endTime) {
+    return new Date(data.startTime) < new Date(data.endTime);
+  }
+  return true;
+}, {
+  message: "End time must be after start time",
+  path: ["endTime"],
 });
 
 type CreateEventForm = z.infer<typeof createEventSchema>;
@@ -42,6 +52,8 @@ export default function CreateEventModal({ open, onOpenChange }: CreateEventModa
       name: '',
       description: '',
       slug: '',
+      startTime: '',
+      endTime: '',
       allowQuestions: true,
       allowAnonymous: true,
       autoApprove: true,
@@ -61,7 +73,18 @@ export default function CreateEventModal({ open, onOpenChange }: CreateEventModa
     onSuccess: (event) => {
       queryClient.invalidateQueries({ queryKey: ['/api/events'] });
       onOpenChange(false);
-      form.reset();
+      form.reset({
+        name: '',
+        description: '',
+        slug: '',
+        startTime: '',
+        endTime: '',
+        allowQuestions: true,
+        allowAnonymous: true,
+        autoApprove: true,
+        showVoting: true,
+        isActive: false,
+      });
       toast({
         title: "Event created!",
         description: `Your event "${event.name}" has been created successfully.`,
@@ -98,7 +121,12 @@ export default function CreateEventModal({ open, onOpenChange }: CreateEventModa
   };
 
   const onSubmit = (data: CreateEventForm) => {
-    createEventMutation.mutate(data);
+    const submitData = {
+      ...data,
+      startTime: data.startTime ? new Date(data.startTime).toISOString() : undefined,
+      endTime: data.endTime ? new Date(data.endTime).toISOString() : undefined,
+    };
+    createEventMutation.mutate(submitData);
   };
 
   return (
@@ -136,6 +164,33 @@ export default function CreateEventModal({ open, onOpenChange }: CreateEventModa
                 className="mt-1"
                 rows={3}
               />
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <Label htmlFor="startTime">Start Date & Time</Label>
+                <Input
+                  id="startTime"
+                  type="datetime-local"
+                  {...form.register('startTime')}
+                  className="mt-1"
+                />
+                {form.formState.errors.startTime && (
+                  <p className="text-sm text-error mt-1">{form.formState.errors.startTime.message}</p>
+                )}
+              </div>
+              <div>
+                <Label htmlFor="endTime">End Date & Time</Label>
+                <Input
+                  id="endTime"
+                  type="datetime-local"
+                  {...form.register('endTime')}
+                  className="mt-1"
+                />
+                {form.formState.errors.endTime && (
+                  <p className="text-sm text-error mt-1">{form.formState.errors.endTime.message}</p>
+                )}
+              </div>
             </div>
 
             <div>

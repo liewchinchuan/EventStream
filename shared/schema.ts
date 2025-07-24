@@ -22,6 +22,8 @@ export const events = pgTable("events", {
   allowAnonymous: boolean("allow_anonymous").default(true).notNull(),
   autoApprove: boolean("auto_approve").default(true).notNull(),
   showVoting: boolean("show_voting").default(true).notNull(),
+  startTime: timestamp("start_time"),
+  endTime: timestamp("end_time"),
   branding: jsonb("branding"), // { logo, primaryColor, etc. }
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });

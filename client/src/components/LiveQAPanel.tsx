@@ -91,6 +91,13 @@ export default function LiveQAPanel({ eventId }: LiveQAPanelProps) {
             <p className="text-sm text-neutral-600 mt-1">
               {questions.length} questions • {event.isActive ? 'Live' : 'Inactive'}
             </p>
+            {(event.startTime || event.endTime) && (
+              <p className="text-xs text-neutral-500 mt-1">
+                {event.startTime && `Starts: ${new Date(event.startTime).toLocaleString()}`}
+                {event.startTime && event.endTime && ' • '}
+                {event.endTime && `Ends: ${new Date(event.endTime).toLocaleString()}`}
+              </p>
+            )}
           </div>
           <div className="flex items-center space-x-2">
             <Badge 
