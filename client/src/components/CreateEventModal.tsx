@@ -131,155 +131,198 @@ export default function CreateEventModal({ open, onOpenChange }: CreateEventModa
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[500px]">
-        <DialogHeader>
+      <DialogContent className="sm:max-w-[600px] max-h-[90vh] flex flex-col">
+        <DialogHeader className="flex-shrink-0">
           <DialogTitle className="flex items-center">
             <Calendar className="w-5 h-5 mr-2 text-primary" />
             Create New Event
           </DialogTitle>
         </DialogHeader>
 
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-          <div className="space-y-4">
-            <div>
-              <Label htmlFor="name">Event Name *</Label>
-              <Input
-                id="name"
-                {...form.register('name')}
-                onChange={handleNameChange}
-                placeholder="e.g., Q1 All Hands Meeting"
-                className="mt-1"
-              />
-              {form.formState.errors.name && (
-                <p className="text-sm text-error mt-1">{form.formState.errors.name.message}</p>
-              )}
-            </div>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col h-full">
+          {/* Scrollable Content */}
+          <div className="flex-1 overflow-y-auto pr-2 space-y-6">
+            {/* Basic Information */}
+            <div className="space-y-4">
+              <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                <h3 className="text-sm font-semibold text-blue-900 mb-3">Basic Information</h3>
+                
+                <div className="space-y-4">
+                  <div>
+                    <Label htmlFor="name">Event Name *</Label>
+                    <Input
+                      id="name"
+                      {...form.register('name')}
+                      onChange={handleNameChange}
+                      placeholder="e.g., Q1 All Hands Meeting"
+                      className="mt-1"
+                    />
+                    {form.formState.errors.name && (
+                      <p className="text-sm text-error mt-1">{form.formState.errors.name.message}</p>
+                    )}
+                  </div>
 
-            <div>
-              <Label htmlFor="description">Description</Label>
-              <Textarea
-                id="description"
-                {...form.register('description')}
-                placeholder="Brief description of your event (optional)"
-                className="mt-1"
-                rows={3}
-              />
-            </div>
+                  <div>
+                    <Label htmlFor="description">Description</Label>
+                    <Textarea
+                      id="description"
+                      {...form.register('description')}
+                      placeholder="Brief description of your event (optional)"
+                      className="mt-1 resize-none"
+                      rows={2}
+                    />
+                  </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <Label htmlFor="startTime">Start Date & Time</Label>
-                <Input
-                  id="startTime"
-                  type="datetime-local"
-                  {...form.register('startTime')}
-                  className="mt-1"
-                />
-                {form.formState.errors.startTime && (
-                  <p className="text-sm text-error mt-1">{form.formState.errors.startTime.message}</p>
-                )}
+                  <div>
+                    <Label htmlFor="slug">Event URL *</Label>
+                    <div className="mt-1 flex items-center">
+                      <span className="text-xs text-neutral-500 bg-neutral-100 px-2 py-2 rounded-l-md border border-r-0 whitespace-nowrap">
+                        {window.location.host}/
+                      </span>
+                      <Input
+                        id="slug"
+                        {...form.register('slug')}
+                        placeholder="event-url"
+                        className={`rounded-l-none text-sm ${isGeneratingSlug ? 'animate-pulse bg-neutral-50' : ''}`}
+                      />
+                    </div>
+                    {form.formState.errors.slug && (
+                      <p className="text-sm text-error mt-1">{form.formState.errors.slug.message}</p>
+                    )}
+                  </div>
+                </div>
               </div>
-              <div>
-                <Label htmlFor="endTime">End Date & Time</Label>
-                <Input
-                  id="endTime"
-                  type="datetime-local"
-                  {...form.register('endTime')}
-                  className="mt-1"
-                />
-                {form.formState.errors.endTime && (
-                  <p className="text-sm text-error mt-1">{form.formState.errors.endTime.message}</p>
-                )}
+            </div>
+
+            {/* Schedule */}
+            <div className="bg-green-50 border border-green-200 rounded-lg p-4">
+              <h3 className="text-sm font-semibold text-green-900 mb-3">Schedule (Optional)</h3>
+              
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <Label htmlFor="startTime" className="text-sm">Start Date & Time</Label>
+                  <Input
+                    id="startTime"
+                    type="datetime-local"
+                    {...form.register('startTime')}
+                    className="mt-1"
+                  />
+                  {form.formState.errors.startTime && (
+                    <p className="text-sm text-error mt-1">{form.formState.errors.startTime.message}</p>
+                  )}
+                </div>
+                <div>
+                  <Label htmlFor="endTime" className="text-sm">End Date & Time</Label>
+                  <Input
+                    id="endTime"
+                    type="datetime-local"
+                    {...form.register('endTime')}
+                    className="mt-1"
+                  />
+                  {form.formState.errors.endTime && (
+                    <p className="text-sm text-error mt-1">{form.formState.errors.endTime.message}</p>
+                  )}
+                </div>
               </div>
             </div>
 
-            <div>
-              <Label htmlFor="slug">Event URL *</Label>
-              <div className="mt-1 flex items-center">
-                <span className="text-sm text-neutral-500 bg-neutral-100 px-3 py-2 rounded-l-md border border-r-0">
-                  {window.location.host}/
-                </span>
-                <Input
-                  id="slug"
-                  {...form.register('slug')}
-                  placeholder="event-url"
-                  className={`rounded-l-none ${isGeneratingSlug ? 'animate-pulse bg-neutral-50' : ''}`}
-                />
-              </div>
-              {form.formState.errors.slug && (
-                <p className="text-sm text-error mt-1">{form.formState.errors.slug.message}</p>
-              )}
-              <p className="text-xs text-neutral-500 mt-1">
-                Participants will join at: {window.location.host}/{form.watch('slug') || 'your-event-url'}
-              </p>
-            </div>
-          </div>
+            {/* Settings */}
+            <div className="bg-purple-50 border border-purple-200 rounded-lg p-4">
+              <h3 className="text-sm font-semibold text-purple-900 mb-3 flex items-center">
+                <Users className="w-4 h-4 mr-2" />
+                Event Settings
+              </h3>
+              
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div className="flex items-start space-x-2">
+                  <Checkbox 
+                    id="allowQuestions"
+                    checked={form.watch('allowQuestions')}
+                    onCheckedChange={(checked) => form.setValue('allowQuestions', checked === true)}
+                    className="mt-0.5"
+                  />
+                  <div>
+                    <Label htmlFor="allowQuestions" className="text-sm font-medium">
+                      Enable Q&A
+                    </Label>
+                    <p className="text-xs text-neutral-500">Allow participants to submit questions</p>
+                  </div>
+                </div>
 
-          <div className="space-y-4">
-            <h4 className="font-medium text-neutral-900 flex items-center">
-              <Users className="w-4 h-4 mr-2" />
-              Event Settings
-            </h4>
+                <div className="flex items-start space-x-2">
+                  <Checkbox 
+                    id="allowAnonymous"
+                    checked={form.watch('allowAnonymous')}
+                    onCheckedChange={(checked) => form.setValue('allowAnonymous', checked === true)}
+                    className="mt-0.5"
+                  />
+                  <div>
+                    <Label htmlFor="allowAnonymous" className="text-sm font-medium">
+                      Anonymous Users
+                    </Label>
+                    <p className="text-xs text-neutral-500">Allow participation without names</p>
+                  </div>
+                </div>
+
+                <div className="flex items-start space-x-2">
+                  <Checkbox 
+                    id="autoApprove"
+                    checked={form.watch('autoApprove')}
+                    onCheckedChange={(checked) => form.setValue('autoApprove', checked === true)}
+                    className="mt-0.5"
+                  />
+                  <div>
+                    <Label htmlFor="autoApprove" className="text-sm font-medium">
+                      Auto-approve
+                    </Label>
+                    <p className="text-xs text-neutral-500">Questions appear instantly</p>
+                  </div>
+                </div>
+
+                <div className="flex items-start space-x-2">
+                  <Checkbox 
+                    id="showVoting"
+                    checked={form.watch('showVoting')}
+                    onCheckedChange={(checked) => form.setValue('showVoting', checked === true)}
+                    className="mt-0.5"
+                  />
+                  <div>
+                    <Label htmlFor="showVoting" className="text-sm font-medium">
+                      Question Voting
+                    </Label>
+                    <p className="text-xs text-neutral-500">Enable upvoting questions</p>
+                  </div>
+                </div>
+
+                <div className="flex items-start space-x-2 sm:col-span-2">
+                  <Checkbox 
+                    id="isActive"
+                    checked={form.watch('isActive')}
+                    onCheckedChange={(checked) => form.setValue('isActive', checked === true)}
+                    className="mt-0.5"
+                  />
+                  <div>
+                    <Label htmlFor="isActive" className="text-sm font-semibold text-green-700">
+                      Start Event Immediately
+                    </Label>
+                    <p className="text-xs text-neutral-500">Make event live right after creation</p>
+                  </div>
+                </div>
+              </div>
+            </div>
             
-            <div className="space-y-3">
-              <div className="flex items-center space-x-2">
-                <Checkbox 
-                  id="allowQuestions"
-                  checked={form.watch('allowQuestions')}
-                  onCheckedChange={(checked) => form.setValue('allowQuestions', checked === true)}
-                />
-                <Label htmlFor="allowQuestions" className="text-sm">
-                  Allow participants to submit questions
-                </Label>
-              </div>
-
-              <div className="flex items-center space-x-2">
-                <Checkbox 
-                  id="allowAnonymous"
-                  checked={form.watch('allowAnonymous')}
-                  onCheckedChange={(checked) => form.setValue('allowAnonymous', checked === true)}
-                />
-                <Label htmlFor="allowAnonymous" className="text-sm">
-                  Allow anonymous participation
-                </Label>
-              </div>
-
-              <div className="flex items-center space-x-2">
-                <Checkbox 
-                  id="autoApprove"
-                  checked={form.watch('autoApprove')}
-                  onCheckedChange={(checked) => form.setValue('autoApprove', checked === true)}
-                />
-                <Label htmlFor="autoApprove" className="text-sm">
-                  Auto-approve questions (no moderation)
-                </Label>
-              </div>
-
-              <div className="flex items-center space-x-2">
-                <Checkbox 
-                  id="showVoting"
-                  checked={form.watch('showVoting')}
-                  onCheckedChange={(checked) => form.setValue('showVoting', checked === true)}
-                />
-                <Label htmlFor="showVoting" className="text-sm">
-                  Enable question voting
-                </Label>
-              </div>
-
-              <div className="flex items-center space-x-2">
-                <Checkbox 
-                  id="isActive"
-                  checked={form.watch('isActive')}
-                  onCheckedChange={(checked) => form.setValue('isActive', checked === true)}
-                />
-                <Label htmlFor="isActive" className="text-sm font-medium">
-                  Start event immediately
-                </Label>
+            {/* Preview */}
+            <div className="bg-neutral-50 border border-neutral-200 rounded-lg p-4">
+              <h3 className="text-sm font-semibold text-neutral-900 mb-2">Preview</h3>
+              <p className="text-xs text-neutral-500 mb-2">Participants will join at:</p>
+              <div className="bg-white border rounded px-3 py-2 font-mono text-sm text-primary break-all">
+                {window.location.host}/{form.watch('slug') || 'your-event-url'}
               </div>
             </div>
           </div>
 
-          <div className="flex justify-end space-x-3 pt-4 border-t">
+          {/* Fixed Footer */}
+          <div className="flex-shrink-0 flex justify-end space-x-3 pt-4 mt-4 border-t bg-white">
             <Button 
               type="button" 
               variant="outline" 
