@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'wouter';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { ChevronUp, Send, Users, MessageSquare } from 'lucide-react';
+import { ChevronUp, Send, Users, MessageSquare, Monitor } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Textarea } from '@/components/ui/textarea';
@@ -163,7 +163,7 @@ export default function AudiencePage() {
               />
               <Label htmlFor="anonymous">Join anonymously</Label>
             </div>
-            
+
             {!isAnonymous && (
               <div>
                 <Label htmlFor="name">Your name</Label>
@@ -237,7 +237,7 @@ export default function AudiencePage() {
                   ))}
                 </div>
               )}
-              
+
               {pollResults && activePoll.showResults && (
                 <div className="mt-4 space-y-2">
                   <p className="text-sm text-neutral-600">Current results:</p>
@@ -342,8 +342,16 @@ export default function AudiencePage() {
                         </div>
                       )}
                       <div className="flex-1">
-                        <p className="text-neutral-800 font-medium">{question.text}</p>
-                        <div className="flex items-center space-x-4 mt-2 text-xs text-neutral-500">
+                        <div className="flex items-start justify-between">
+                          <p className="text-sm text-neutral-800 mb-2 flex-1">{question.text}</p>
+                          {question.isDisplayedInPresenter && (
+                            <Badge variant="default" className="ml-2 text-xs bg-blue-600 flex items-center">
+                              <Monitor className="w-3 h-3 mr-1" />
+                              On Screen
+                            </Badge>
+                          )}
+                        </div>
+                        <div className="flex items-center space-x-4 text-xs text-neutral-500">
                           <span>
                             {question.isAnonymous ? 'Anonymous' : question.authorName}
                           </span>
