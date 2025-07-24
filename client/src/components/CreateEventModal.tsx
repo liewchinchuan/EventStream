@@ -170,7 +170,8 @@ export default function CreateEventModal({ open, onOpenChange }: CreateEventModa
               <div className="flex items-center space-x-2">
                 <Checkbox 
                   id="allowQuestions"
-                  {...form.register('allowQuestions')}
+                  checked={form.watch('allowQuestions')}
+                  onCheckedChange={(checked) => form.setValue('allowQuestions', checked === true)}
                 />
                 <Label htmlFor="allowQuestions" className="text-sm">
                   Allow participants to submit questions
@@ -180,7 +181,8 @@ export default function CreateEventModal({ open, onOpenChange }: CreateEventModa
               <div className="flex items-center space-x-2">
                 <Checkbox 
                   id="allowAnonymous"
-                  {...form.register('allowAnonymous')}
+                  checked={form.watch('allowAnonymous')}
+                  onCheckedChange={(checked) => form.setValue('allowAnonymous', checked === true)}
                 />
                 <Label htmlFor="allowAnonymous" className="text-sm">
                   Allow anonymous participation
@@ -190,7 +192,8 @@ export default function CreateEventModal({ open, onOpenChange }: CreateEventModa
               <div className="flex items-center space-x-2">
                 <Checkbox 
                   id="autoApprove"
-                  {...form.register('autoApprove')}
+                  checked={form.watch('autoApprove')}
+                  onCheckedChange={(checked) => form.setValue('autoApprove', checked === true)}
                 />
                 <Label htmlFor="autoApprove" className="text-sm">
                   Auto-approve questions (no moderation)
@@ -200,7 +203,8 @@ export default function CreateEventModal({ open, onOpenChange }: CreateEventModa
               <div className="flex items-center space-x-2">
                 <Checkbox 
                   id="showVoting"
-                  {...form.register('showVoting')}
+                  checked={form.watch('showVoting')}
+                  onCheckedChange={(checked) => form.setValue('showVoting', checked === true)}
                 />
                 <Label htmlFor="showVoting" className="text-sm">
                   Enable question voting
@@ -210,7 +214,8 @@ export default function CreateEventModal({ open, onOpenChange }: CreateEventModa
               <div className="flex items-center space-x-2">
                 <Checkbox 
                   id="isActive"
-                  {...form.register('isActive')}
+                  checked={form.watch('isActive')}
+                  onCheckedChange={(checked) => form.setValue('isActive', checked === true)}
                 />
                 <Label htmlFor="isActive" className="text-sm font-medium">
                   Start event immediately
