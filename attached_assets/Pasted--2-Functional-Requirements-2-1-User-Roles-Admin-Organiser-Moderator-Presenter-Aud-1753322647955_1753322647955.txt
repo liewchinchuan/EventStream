@@ -1,0 +1,104 @@
+
+
+2. Functional Requirements
+2.1 User Roles
+•	Admin / Organiser
+•	Moderator
+•	Presenter
+•	Audience / Attendee
+________________________________________
+2.2 Session Management
+•	Create and manage Audience Engagement (event instances)
+•	Set event name, date/time, and description
+•	Configure time zones and durations
+•	Customisable access links (e.g., audienceengagement.com/your-event-name)
+________________________________________
+2.3 Interactive Sessions
+2.3.1 Live Q&A
+•	Allow attendees to submit questions anonymously or with name
+•	Upvote/downvote questions
+•	Questions can be:
+o	Pinned by moderators
+o	Marked as answered
+o	Hidden or removed
+•	Real-time update of questions queue
+2.3.2 Polls
+•	Multiple poll types:
+o	Multiple Choice
+o	Word Cloud
+o	Open Text
+o	Ranking
+o	Rating
+•	Live poll results displayed in real-time
+•	Polls can be pre-scheduled or launched on-the-fly
+2.3.3 Surveys
+•	Multi-question forms
+•	Conditional logic (e.g., show question based on previous response)
+•	Exportable data
+•	Anonymous or identified responses
+2.3.4 Quizzes
+•	Timed or untimed questions
+•	Auto-scoring and leaderboard view
+•	Presenter-led or self-paced
+________________________________________
+2.4 Moderation Tools
+•	Pre-screen questions before going live
+•	Set moderation mode: pre-approved, post-approved, or automatic
+•	Assign roles to team members (e.g., moderators, hosts)
+•	Remove inappropriate content instantly
+________________________________________
+2.5 Custom Branding & Configuration
+•	Upload company or event logo
+•	Custom color theme
+•	Welcome and closing messages
+•	Custom domain options
+•	Custom email/SMS notification templates
+________________________________________
+2.6 Audience Accessibility Features
+•	Join without registration or via secure access
+•	Mobile responsive UI
+•	QR code or short URL for joining
+•	Language localization support
+•	Option to participate anonymously
+________________________________________
+2.7 Analytics & Reporting
+•	Real-time response dashboard
+•	Export data as CSV/XLS
+•	Metrics:
+o	Number of participants
+o	Response rates
+o	Engagement scores
+•	Session transcripts & summary
+________________________________________
+2.8 Security & Compliance
+•	GDPR-compliant data handling
+•	Encrypted data transmission (HTTPS)
+•	Optional 2FA for admin logins
+•	Role-based access control
+•	Data retention policy configurations
+________________________________________
+3. Styling and UI/UX (Look and Feel)
+3.1 General Aesthetic
+•	Minimalist, modern, and professional
+•	Clean white or light background with accent color (customizable)
+•	Rounded edges, consistent padding/margins
+•	Smooth animations for interactions (e.g., upvote, question appears)
+3.2 Fonts and Colors
+•	Font: Sans-serif (e.g., Inter, Roboto, Open Sans)
+•	Default text color: #333 (dark grey)
+•	Accent colors: Customizable based on event branding
+•	Primary button: Bold accent color with hover effects
+3.3 Layout
+•	Responsive design for mobile, tablet, and desktop
+•	Card-based UI for Q&A, polls, and sessions
+•	Sticky headers for navigation
+•	Presenter view vs. audience view clearly separated
+3.4 Interaction Patterns
+•	Instant feedback on interaction (e.g., voting button glows)
+•	Poll charts animate in real-time
+•	Question list auto-scrolls or notifies when new questions come in
+3.5 Accessibility
+•	High contrast mode toggle
+•	Keyboard-navigable components
+•	Screen reader-friendly labels and ARIA tags
+•	Large click/tap areas for touchscreens
